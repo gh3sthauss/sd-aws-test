@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import axios from "axios";
 
 function App() {
+  const [image, updateImage] = useState();
+  const [prompt, updatePrompt] = useState();
+  const [loading, updateLoading] = useState();
+
+  const payload = JSON.stringify({
+    "prompt": "maltese puppy",
+    "steps": 5
+  })
+  const generate = async (prompt) => {
+    updateLoading(true);
+    const result = await axios.post(`http://127.0.0.1:7860/sdapi/v1/txt2img`, payload);
+    updateImage(result.data);
+    updateLoading(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input
+        value={prompt}
+        onChange={(e) => updatePrompt(e.target.value)}
+        className="max-w-1/2 border-red-400 border-solid px-6 py-2 bg-slate-300"
+      ></input>
+      <button onClick={() => generate(prompt)} colorScheme={"yellow"}>
+        Generate
+      </button>
+
+      {loading ? (
+        <h1>loading...</h1>
+      ) : image ? (
+        <img src={`data:image/png;base64,${image}`} boxShadow="lg" />
+      ) : null}
     </div>
   );
 }
