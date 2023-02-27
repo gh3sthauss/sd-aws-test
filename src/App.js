@@ -6,14 +6,15 @@ function App() {
   const [prompt, updatePrompt] = useState();
   const [loading, updateLoading] = useState();
 
-  const payload = JSON.stringify({
+  const payload = {
     "prompt": "maltese puppy",
     "steps": 5
-  })
+  }
   const generate = async (prompt) => {
     updateLoading(true);
     const result = await axios.post(`http://127.0.0.1:7860/sdapi/v1/txt2img`, payload);
-    updateImage(result.data);
+    console.log(result)
+    updateImage(result.data.images[0]);
     updateLoading(false);
   };
 
