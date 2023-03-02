@@ -13,13 +13,7 @@ function App() {
  
   const generate = async (prompt) => {
     updateLoading(true);
-    const result = await axios.post(`https://324f-78-190-104-220.eu.ngrok.io/sdapi/v1/txt2img`, payload , {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-
-        'Content-Type': 'application/json'
-      }
-    });
+    const result = await axios.post(`https://324f-78-190-104-220.eu.ngrok.io/sdapi/v1/txt2img`, payload); 
     console.log(result)
     updateImage(result.data.images[0]); 
     updateLoading(false);
