@@ -10,11 +10,18 @@ function App() {
     "prompt": "maltese puppy",
     "steps": 5
   }
+ 
   const generate = async (prompt) => {
     updateLoading(true);
-    const result = await axios.post(`http://127.0.0.1:7860/sdapi/v1/txt2img`, payload);
+    const result = await axios.post(`https://324f-78-190-104-220.eu.ngrok.io/sdapi/v1/txt2img`, payload , {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+
+        'Content-Type': 'application/json'
+      }
+    });
     console.log(result)
-    updateImage(result.data.images[0]);
+    updateImage(result.data.images[0]); 
     updateLoading(false);
   };
 
